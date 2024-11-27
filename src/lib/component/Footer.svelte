@@ -3,21 +3,27 @@
   const currentYear = (getYear > 2018 ? `2018 - ` : "") + getYear;
 </script>
 
-<footer class="container mt-5 py-4 border-top text-center text-muted">
-  <div class="row">
-    <div class="col-md-6 text-center text-md-start">
-      <a
-        href="https://mf-chan.com"
-        class="text-decoration-none"
-        target="_blank"
-      >
-        Mfc
-      </a>
-      &copy; {currentYear}
-    </div>
-    <div class="col-md-6 text-center text-md-end">
-      This web page licensed under
-      <a href="https://opensource.org/licenses/MIT" target="_blank">MIT</a>
-    </div>
+<footer
+  class="flex flex-col md:flex-row mx-6 mt-5 px-6 py-5 border-t-2 text-gray-500 text-center"
+>
+  <div class="flex-1 text-center md:text-left">
+    <a
+      href="https://mf-chan.com"
+      target="_blank"
+      class="text-blue-500 hover:text-green-500"
+    >
+      Mfc
+    </a>
+    &copy; {currentYear}
+  </div>
+  <div class="flex-1 text-center md:text-right">
+    This web page licensed under
+    <a
+      href="https://opensource.org/licenses/MIT"
+      target="_blank"
+      class="text-blue-500 hover:text-green-500"
+    >
+      MIT
+    </a>
   </div>
 </footer>
