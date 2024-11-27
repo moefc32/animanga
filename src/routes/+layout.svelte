@@ -1,20 +1,29 @@
-<script>import "../app.css";
+<script>
+  import "../app.css";
 
-import Header from "$lib/component/Header.svelte";
-import Footer from "$lib/component/Footer.svelte";</script>
+  import Header from "$lib/component/Header.svelte";
+  import Footer from "$lib/component/Footer.svelte";
+</script>
 
 <svelte:head>
   <title>
     {import.meta.env.VITE_APP_NAME} | Faizal Chan's Website
   </title>
 
-  <meta property="og:title" content="{import.meta.env.VITE_APP_NAME}" />
+  <meta property="og:title" content={import.meta.env.VITE_APP_NAME} />
   <meta property="og:site_name" content="Faizal Chan's Website" />
   <meta property="og:type" content="website" />
-  <meta property="og:description" content="Anime and manga collection by Faizal Chan." />
+  <meta
+    property="og:description"
+    content="Anime and manga collection by Faizal Chan."
+  />
   <meta property="og:image" content="https://mf-chan.com/og.jpg" />
 
-  <script async src="{&quot;https://www.googletagmanager.com/gtag/js?id=&quot;" + import.meta.env.vite_google_tag}></script>
+  <script
+    async
+    src={"https://www.googletagmanager.com/gtag/js?id=" +
+      import.meta.env.vite_google_tag}
+  ></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -27,6 +36,6 @@ import Footer from "$lib/component/Footer.svelte";</script>
   </script>
 </svelte:head>
 
-<Header></Header>
-<slot></slot>
-<Footer></Footer>
+<Header />
+<slot />
+<Footer />
