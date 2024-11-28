@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      '@fontsource/lato':
+      '@fontsource-variable/noto-sans':
         specifier: ^5.1.0
         version: 5.1.0
       aos:
@@ -203,8 +203,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource/lato@5.1.0':
-    resolution: {integrity: sha512-wYa/DeUS/WuaJoR/vY+v74W6gtOm98DgoRdSj4FuMXe0E0XYGAEVOgh+DxusJR3EglRZU6ZZDF7vZ881vV1KGA==}
+  '@fontsource-variable/noto-sans@5.1.0':
+    resolution: {integrity: sha512-mLn33cgmryVFjpHoHy/lx6/DsRvp8kbxDmfMbMNl75eY+bVubad3u6oGSCyc8izcSNZAhAlXdoFW7mCnI2l63w==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1084,7 +1084,7 @@ snapshots:
   '@esbuild/win32-x64@0.21.5':
     optional: true
 
-  '@fontsource/lato@5.1.0': {}
+  '@fontsource-variable/noto-sans@5.1.0': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
