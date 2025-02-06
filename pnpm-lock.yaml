@@ -45,6 +45,9 @@ importers:
       svelte:
         specifier: ^5.0.0
         version: 5.2.8
+      svoast:
+        specifier: ^3.0.3
+        version: 3.0.3(svelte@5.2.8)
       tailwindcss:
         specifier: ^3.4.9
         version: 3.4.15
@@ -903,6 +906,11 @@ packages:
     resolution: {integrity: sha512-VU7a01XwnFi6wXVkH5QY3FYXRZWrhsWZhaE8AYU6UeYZdslE3TFgQq6+HLrbMjOLkVhdKt74NGHYbhFeErQQ6g==}
     engines: {node: '>=18'}
 
+  svoast@3.0.3:
+    resolution: {integrity: sha512-Bi4shNEjseyfBRiHylr7l+Ib4nGdiOd8Jc94AYnJ0TGD5f2BldKfeYCd12aJTPG5v9phjhCDuZ2ArlAzhMwZjQ==}
+    peerDependencies:
+      svelte: ^5.0.0
+
   tailwindcss@3.4.15:
     resolution: {integrity: sha512-r4MeXnfBmSOuKUWmXe6h2CcyfzJCEk4F0pptO5jlnYSIViUkVmsawj80N5h2lO3gwcmSb4n3PuN+e+GC1Guylw==}
     engines: {node: '>=14.0.0'}
@@ -1743,6 +1751,10 @@ snapshots:
       locate-character: 3.0.0
       magic-string: 0.30.13
       zimmerframe: 1.1.2
+
+  svoast@3.0.3(svelte@5.2.8):
+    dependencies:
+      svelte: 5.2.8
 
   tailwindcss@3.4.15:
     dependencies:

@@ -1,5 +1,6 @@
 <script>
   import "../app.css";
+  import { Toasts } from "svoast";
 
   import Header from "$lib/component/Header.svelte";
   import Footer from "$lib/component/Footer.svelte";
@@ -38,3 +39,4 @@
 <Header />
 <slot />
 <Footer />
+<Toasts position={"bottom-center"} />
