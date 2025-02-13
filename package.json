@@ -9,23 +9,23 @@
 		"deploy": "pnpm build && pnpx gh-pages -d build"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "^3.0.6",
-		"@sveltejs/kit": "^2.0.0",
-		"@sveltejs/vite-plugin-svelte": "^4.0.0",
-		"@tailwindcss/forms": "^0.5.9",
-		"@tailwindcss/typography": "^0.5.14",
+		"@sveltejs/adapter-static": "^3.0.8",
+		"@sveltejs/kit": "^2.17.1",
+		"@sveltejs/vite-plugin-svelte": "^4.0.4",
+		"@tailwindcss/forms": "^0.5.10",
+		"@tailwindcss/typography": "^0.5.16",
 		"autoprefixer": "^10.4.20",
-		"daisyui": "^4.12.14",
+		"daisyui": "^4.12.23",
 		"gh-pages": "^6.3.0",
-		"svelte": "^5.0.0",
+		"svelte": "^5.20.0",
 		"svoast": "^3.0.3",
-		"tailwindcss": "^3.4.9",
-		"vite": "^5.0.3"
+		"tailwindcss": "^3.4.17",
+		"vite": "^5.4.14"
 	},
 	"dependencies": {
-		"@fontsource-variable/noto-sans": "^5.1.0",
+		"@fontsource-variable/noto-sans": "^5.1.1",
 		"aos": "^2.3.4",
-		"fuse.js": "^7.0.0",
+		"fuse.js": "^7.1.0",
 		"lucide-svelte": "^0.461.0"
 	}
 }
