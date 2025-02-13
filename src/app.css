@@ -5,9 +5,5 @@
 @import "@fontsource-variable/noto-sans";
 
 body {
-  font-family: "Noto Sans Variable", sans-serif;
-}
-
-a {
-  transition: 0.25s;
+    font-family: "Noto Sans Variable", sans-serif;
 }
