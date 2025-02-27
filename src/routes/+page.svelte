@@ -17,17 +17,6 @@
         ignoreLocation: true,
     };
 
-    const mediaType = [
-        {
-            name: 'anime',
-            pretty: 'Anime',
-        },
-        {
-            name: 'manga',
-            pretty: 'Manga',
-        },
-    ];
-
     let dataLoading = true;
     let animanga = [];
     let currentPage = 1;

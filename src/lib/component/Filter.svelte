@@ -4,6 +4,17 @@
     export let searchKeyword;
     export let mediaFilter;
     export let resetFilter;
+
+    const mediaTypes = [
+        {
+            value: 'anime',
+            name: 'Anime',
+        },
+        {
+            value: 'manga',
+            name: 'Manga',
+        },
+    ];
 </script>
 
 <div class="flex items-center flex-wrap gap-2">
@@ -18,8 +29,9 @@
             bind:value={mediaFilter}
         >
             <option value="" selected>All Media</option>
-            <option value="anime">Anime</option>
-            <option value="manga">Manga</option>
+            {#each mediaTypes as item, i}
+                <option value={item.value}>{item.name}</option>
+            {/each}
         </select>
     </label>
     {#if searchKeyword || mediaFilter}
