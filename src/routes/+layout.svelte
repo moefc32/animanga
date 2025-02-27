@@ -1,5 +1,6 @@
 <script>
     import '../app.css';
+    import 'aos/dist/aos.css';
     import { Toasts } from 'svoast';
 
     import Header from '$lib/component/Header.svelte';

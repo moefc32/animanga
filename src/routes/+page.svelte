@@ -1,13 +1,13 @@
 <script>
     import { onMount } from 'svelte';
     import { toast } from 'svoast';
+    import AOS from 'aos';
     import Fuse from 'fuse.js';
 
     import Title from '$lib/component/Title.svelte';
-
-    // const animangaModalEl = document.querySelector("#animanga-modal");
-    // const animangaModal =
-    //   animangaModalEl && new bootstrap.Modal(animangaModalEl, {});
+    import Filter from '$lib/component/Filter.svelte';
+    import AnimangaCard from '$lib/component/AnimangaCard.svelte';
+    import Pagination from '$lib/component/Pagination.svelte';
 
     const fuseOptions = {
         isCaseSensitive: false,
@@ -30,70 +30,68 @@
 
     let dataLoading = true;
     let animanga = [];
-    let randomPick = [];
-    let animangaCurrentPage = 1;
-    let animangaPageSize = 36;
-    let pageSize = 12;
+    let currentPage = 1;
+    let pageSize = parseInt(import.meta.env.VITE_PAGINATION_ITEMS, 10);
     let searchKeyword = '';
     let mediaFilter = '';
     let searchResult = [];
-    let modal = {
-        authors: [],
-        studios: [],
-        genres: [],
-        loadedImage: '',
-    };
+    // let modal = {
+    //     authors: [],
+    //     studios: [],
+    //     genres: [],
+    //     loadedImage: '',
+    // };
 
-    async function loadModalImage() {
-        try {
-            let img = new Image();
+    // async function loadModalImage() {
+    //     try {
+    //         let img = new Image();
 
-            await new Promise((resolve, reject) => {
-                img.addEventListener('load', () => {
-                    modal.loadedImage = img.src;
-                    resolve();
-                });
+    //         await new Promise((resolve, reject) => {
+    //             img.addEventListener('load', () => {
+    //                 modal.loadedImage = img.src;
+    //                 resolve();
+    //             });
 
-                img.addEventListener('error', () => {
-                    reject(new Error('Failed to load image!'));
-                });
+    //             img.addEventListener('error', () => {
+    //                 reject(new Error('Failed to load image!'));
+    //             });
 
-                img.src = modal.image_large;
-            });
-        } catch (e) {
-            throw e;
-        }
-    }
+    //             img.src = modal.image_large;
+    //         });
+    //     } catch (e) {
+    //         throw e;
+    //     }
+    // }
 
-    function openModal(item) {
-        modal.loadedImage = '';
-        const tempObject = { ...modal, ...item };
+    // function openModal(item) {
+    //     modal.loadedImage = '';
+    //     const tempObject = { ...modal, ...item };
 
-        tempObject.authors = tempObject.authors.map((item, i) => {
-            return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
-        });
+    //     tempObject.authors = tempObject.authors.map((item, i) => {
+    //         return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
+    //     });
 
-        tempObject.studios = tempObject.studios.map((item, i) => {
-            return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
-        });
+    //     tempObject.studios = tempObject.studios.map((item, i) => {
+    //         return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
+    //     });
 
-        tempObject.genres = tempObject.genres.map((item, i) => {
-            return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
-        });
+    //     tempObject.genres = tempObject.genres.map((item, i) => {
+    //         return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
+    //     });
 
-        if (tempObject.season) {
-            const words = tempObject.season.toLowerCase().split(' ');
-            const titleCasedWords = words.map(word => {
-                return word.charAt(0).toUpperCase() + word.slice(1);
-            });
+    //     if (tempObject.season) {
+    //         const words = tempObject.season.toLowerCase().split(' ');
+    //         const titleCasedWords = words.map(word => {
+    //             return word.charAt(0).toUpperCase() + word.slice(1);
+    //         });
 
-            tempObject.season = titleCasedWords.join(' ');
-        }
+    //         tempObject.season = titleCasedWords.join(' ');
+    //     }
 
-        modal = tempObject;
-        loadModalImage();
-        animangaModal.show();
-    }
+    //     modal = tempObject;
+    //     loadModalImage();
+    //     animangaModal.show();
+    // }
 
     function search() {
         if (!searchKeyword && !mediaFilter) {
@@ -115,53 +113,34 @@
         }
 
         searchResult = searchData;
-        animangaCurrentPage = 1;
+        currentPage = 1;
         AOS.refresh();
     }
 
-    function resetFilter(e) {
-        animangaCurrentPage = 1;
+    async function resetFilter() {
+        currentPage = 1;
         searchKeyword = '';
         mediaFilter = '';
         searchResult = [];
     }
 
     function getPageItems() {
-        const startIndex = (animangaCurrentPage - 1) * animangaPageSize;
+        const startIndex = (currentPage - 1) * pageSize;
+
         return searchKeyword || mediaFilter
-            ? searchResult.slice(startIndex, startIndex + animangaPageSize)
-            : animanga.slice(startIndex, startIndex + animangaPageSize);
+            ? searchResult.slice(startIndex, startIndex + pageSize)
+            : animanga.slice(startIndex, startIndex + pageSize);
     }
 
-    function totalPages() {
+    function getTotalPages() {
         return searchKeyword || mediaFilter
-            ? Math.ceil(searchResult.length / animangaPageSize)
-            : Math.ceil(animanga.length / animangaPageSize);
+            ? Math.ceil(searchResult.length / pageSize)
+            : Math.ceil(animanga.length / pageSize);
     }
 
-    function goToPage(page) {
-        if (page !== animangaCurrentPage && page >= 1 && page <= totalPages()) {
-            animangaCurrentPage = page;
-
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 10);
-        }
-    }
-
-    function prevPage() {
-        if (animangaCurrentPage > 1) {
-            animangaCurrentPage--;
-
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 10);
-        }
-    }
-
-    function nextPage() {
-        if (animangaCurrentPage < totalPages()) {
-            animangaCurrentPage++;
+    function navigate(page) {
+        if (page !== currentPage && page >= 1 && page <= getTotalPages()) {
+            currentPage = page;
 
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -170,12 +149,13 @@
     }
 
     onMount(async () => {
+        AOS.init();
+
         try {
             const response = await fetch(import.meta.env.VITE_BACKEND);
             const { data } = await response.json();
 
             animanga = data.animanga;
-            randomPick = data.randomPick;
             dataLoading = false;
         } catch (e) {
             console.error(e);
@@ -184,14 +164,22 @@
             );
         }
     });
+
+    $: searchKeyword, mediaFilter, search();
 </script>
 
-<Title />
+<Title {dataLoading} count={animanga.length} />
 
-<main class="flex-1 mx-12 my-6">
-    <h1>Welcome to SvelteKit</h1>
-    <p>
-        Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read
-        the documentation
-    </p>
+<main class="flex flex-1 flex-col gap-6 mx-12 my-6">
+    <Filter bind:searchKeyword bind:mediaFilter {resetFilter} />
+    <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6"
+    >
+        {#each getPageItems() as item, i}
+            <AnimangaCard {item} />
+        {/each}
+    </div>
+    {#if animanga.length || searchResult.length}
+        <Pagination {currentPage} {getTotalPages} {navigate} />
+    {/if}
 </main>

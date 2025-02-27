@@ -1,5 +1,6 @@
 <script>
-    export let count = 191;
+    export let dataLoading;
+    export let count;
 </script>
 
 <section
@@ -7,6 +8,8 @@
 >
     <h1 class="m-3 text-3xl">Anime and Manga Collection</h1>
     <p class="mx-3">
-        There are currently {count} titles recommended by Mfc
+        {dataLoading
+            ? 'Loading data, please wait...'
+            : `There are currently ${count} titles recommended by Mfc`}
     </p>
 </section>

@@ -4,7 +4,7 @@
 </script>
 
 <footer
-    class="flex flex-col md:flex-row mx-6 mt-5 px-6 py-5 border-t-2 text-gray-500 text-center"
+    class="flex flex-col md:flex-row mx-6 mt-5 px-6 py-5 border-t-[1px] border-gray-300 text-gray-500 text-center"
 >
     <div class="flex-1 text-center md:text-left">
         <a
