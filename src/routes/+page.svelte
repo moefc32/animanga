@@ -4,7 +4,7 @@
     import AOS from 'aos';
     import Fuse from 'fuse.js';
 
-    import Title from '$lib/component/Title.svelte';
+    import Banner from '$lib/component/Banner.svelte';
     import Filter from '$lib/component/Filter.svelte';
     import AnimangaCard from '$lib/component/AnimangaCard.svelte';
     import Pagination from '$lib/component/Pagination.svelte';
@@ -149,7 +149,7 @@
         } catch (e) {
             console.error(e);
             toast.error(
-                'Cannot fetch data from the backend, please try again later.',
+                'Cannot fetch data from the backend, please try again later!',
             );
         }
     });
@@ -157,7 +157,7 @@
     $: searchKeyword, mediaFilter, search();
 </script>
 
-<Title {dataLoading} count={animanga.length} />
+<Banner {dataLoading} count={animanga.length} />
 
 <main class="flex flex-1 flex-col gap-6 mx-12 my-6">
     <Filter bind:searchKeyword bind:mediaFilter {resetFilter} />

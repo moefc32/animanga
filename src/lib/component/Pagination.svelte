@@ -14,9 +14,9 @@
             on:click={() => navigate(currentPage)}
         >
             {#each Array(getTotalPages()) as _, i}
-                <option value={i + 1}
-                    >{(i + 1).toString().padStart(2, '0')}</option
-                >
+                <option value={i + 1}>
+                    {(i + 1).toString().padStart(2, '0')}
+                </option>
             {/each}
         </select>
         <button
