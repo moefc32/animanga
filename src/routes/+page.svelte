@@ -159,16 +159,18 @@
 
 <Banner {dataLoading} count={animanga.length} />
 
-<main class="flex flex-1 flex-col gap-6 mx-12 my-6">
-    <Filter bind:searchKeyword bind:mediaFilter {resetFilter} />
-    <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6"
-    >
-        {#each getPageItems() as item, i}
-            <AnimangaCard {item} />
-        {/each}
+<main class="flex flex-1 flex-col gap-9 mx-12 my-6">
+    <div class="flex flex-col gap-6 w-full">
+        <Filter bind:searchKeyword bind:mediaFilter {resetFilter} />
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 pt-2"
+        >
+            {#each getPageItems() as item, i}
+                <AnimangaCard {item} />
+            {/each}
+        </div>
+        {#if animanga.length || searchResult.length}
+            <Pagination {currentPage} {getTotalPages} {navigate} />
+        {/if}
     </div>
-    {#if animanga.length || searchResult.length}
-        <Pagination {currentPage} {getTotalPages} {navigate} />
-    {/if}
 </main>
