@@ -6,7 +6,7 @@
 
 <div class="flex flex-col gap-3" data-aos="fade-up">
     <div
-        class="card pt-[150%] !bg-cover w-full rounded-lg border-[1px] border-gray-300 overflow-hidden shadow-lg relative"
+        class="card pt-[150%] bg-cover! w-full rounded-lg border-[1px] border-gray-300 overflow-hidden shadow-lg relative"
         style="background: url({item.image_thumb}) center center no-repeat;"
         title={item.title_english || item.title}
     >
@@ -24,7 +24,10 @@
             </div>
         {/if}
     </div>
-    <div class="mb-3 text-xl line-clamp-2" title={item.title_english || item.title}>
+    <div
+        class="mb-3 text-xl line-clamp-2"
+        title={item.title_english || item.title}
+    >
         {item.title_english || item.title}
     </div>
 </div>
