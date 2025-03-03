@@ -5,6 +5,8 @@
 
     import Header from '$lib/component/Header.svelte';
     import Footer from '$lib/component/Footer.svelte';
+
+    const ogImage = `${import.meta.env.VITE_SITE_URL}/og.png`;
 </script>
 
 <svelte:head>
@@ -19,7 +21,7 @@
         property="og:description"
         content="Anime and manga collection by Faizal Chan."
     />
-    <meta property="og:image" content="/og.png" />
+    <meta property="og:image" content={ogImage} />
 
     <script
         src="https://www.googletagmanager.com/gtag/js?id=UA-131278165-1"
