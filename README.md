@@ -1,4 +1,4 @@
-# animanga
+# Animanga
 <a href="https://mf-chan.com"><img src="https://img.shields.io/badge/Faizal%20Chan%27s%20Website-blue?style=flat-square" height="24" /></a>
 <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" height="24" /></a>
 <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/Package-PNPM-orange?style=flat-square" height="24" /></a>
