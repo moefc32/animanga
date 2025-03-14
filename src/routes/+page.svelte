@@ -165,11 +165,17 @@
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 pt-2"
         >
-            {#each getPageItems() as item, i}
-                <AnimangaCard {item} />
-            {/each}
+            {#if getPageItems().length}
+                {#each getPageItems() as item, i}
+                    <AnimangaCard {item} />
+                {/each}
+            {:else if !dataLoading}
+                <div class="col-span-full py-24 text-gray-500 text-center">
+                    - No title found -
+                </div>
+            {/if}
         </div>
-        {#if animanga.length || searchResult.length}
+        {#if searchKeyword || mediaFilter ? searchResult.length : animanga.length}
             <Pagination {currentPage} {getTotalPages} {navigate} />
         {/if}
     </div>
