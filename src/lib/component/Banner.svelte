@@ -10,6 +10,6 @@
     <p class="mx-3">
         {dataLoading
             ? 'Loading data, please wait...'
-            : `There are currently ${count} ${count > 1 ? 'titles' : 'title'} recommended by Mfc`}
+            : `There are currently ${count} recommended ${count > 1 ? 'titles' : 'title'}`}
     </p>
 </section>

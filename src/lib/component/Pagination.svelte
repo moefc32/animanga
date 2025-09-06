@@ -2,7 +2,7 @@
     import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 
     export let currentPage;
-    export let getTotalPages;
+    export let totalPages;
     export let navigate;
 </script>
 
@@ -13,7 +13,7 @@
             bind:value={currentPage}
             on:click={() => navigate(currentPage)}
         >
-            {#each Array(getTotalPages()) as _, i}
+            {#each Array(totalPages) as _, i}
                 <option value={i + 1}>
                     {(i + 1).toString().padStart(2, '0')}
                 </option>
@@ -23,8 +23,8 @@
             class="join-item px-3 text-sm font-normal border-[1px] border-gray-200"
         >
             <span class="text-nowrap">
-                of {getTotalPages()}
-                {getTotalPages() > 1 ? 'pages' : 'page'}
+                of {totalPages}
+                {totalPages > 1 ? 'pages' : 'page'}
             </span>
         </button>
         <button
@@ -36,7 +36,7 @@
         </button>
         <button
             class="join-item btn px-3"
-            disabled={currentPage === getTotalPages()}
+            disabled={currentPage === totalPages}
             on:click={() => navigate(currentPage + 1)}
         >
             <ChevronRight size={18} />

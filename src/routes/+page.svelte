@@ -1,6 +1,5 @@
 <script>
     import { onMount } from 'svelte';
-    import { toast } from 'svoast';
     import AOS from 'aos';
     import Fuse from 'fuse.js';
 
@@ -8,6 +7,10 @@
     import Filter from '$lib/component/Filter.svelte';
     import AnimangaCard from '$lib/component/AnimangaCard.svelte';
     import Pagination from '$lib/component/Pagination.svelte';
+
+    export let data;
+
+    const { animanga } = data;
 
     const fuseOptions = {
         isCaseSensitive: false,
@@ -17,10 +20,10 @@
         ignoreLocation: true,
     };
 
-    let dataLoading = true;
-    let animanga = [];
+    let pageItems = [];
+    let totalPages = 0;
     let currentPage = 1;
-    let pageSize = parseInt(import.meta.env.VITE_PAGINATION_ITEMS, 10);
+    let pageSize = parseInt(import.meta.env.VITE_PAGINATION_ITEMS || '36', 10);
     let searchKeyword = '';
     let mediaFilter = '';
     let searchResult = [];
@@ -113,22 +116,8 @@
         searchResult = [];
     }
 
-    function getPageItems() {
-        const startIndex = (currentPage - 1) * pageSize;
-
-        return searchKeyword || mediaFilter
-            ? searchResult.slice(startIndex, startIndex + pageSize)
-            : animanga.slice(startIndex, startIndex + pageSize);
-    }
-
-    function getTotalPages() {
-        return searchKeyword || mediaFilter
-            ? Math.ceil(searchResult.length / pageSize)
-            : Math.ceil(animanga.length / pageSize);
-    }
-
     function navigate(page) {
-        if (page !== currentPage && page >= 1 && page <= getTotalPages()) {
+        if (page !== currentPage && page >= 1 && page <= totalPages) {
             currentPage = page;
 
             setTimeout(() => {
@@ -139,25 +128,30 @@
 
     onMount(async () => {
         AOS.init();
-
-        try {
-            const response = await fetch(import.meta.env.VITE_BACKEND);
-            const { data } = await response.json();
-
-            animanga = data.animanga;
-            dataLoading = false;
-        } catch (e) {
-            console.error(e);
-            toast.error(
-                'Cannot fetch data from the backend, please try again later!',
-            );
-        }
     });
 
-    $: searchKeyword, mediaFilter, search();
+    $: {
+        [searchKeyword, mediaFilter], search();
+
+        pageItems =
+            searchKeyword || mediaFilter
+                ? searchResult.slice(
+                      (currentPage - 1) * pageSize,
+                      currentPage * pageSize,
+                  )
+                : animanga.slice(
+                      (currentPage - 1) * pageSize,
+                      currentPage * pageSize,
+                  );
+
+        totalPages =
+            searchKeyword || mediaFilter
+                ? Math.ceil(searchResult.length / pageSize)
+                : Math.ceil(animanga.length / pageSize);
+    }
 </script>
 
-<Banner {dataLoading} count={animanga.length} />
+<Banner count={animanga.length} />
 
 <main class="flex flex-1 flex-col gap-9 mx-12 my-6">
     <div class="flex flex-col gap-6 w-full">
@@ -165,18 +159,18 @@
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 pt-2"
         >
-            {#if getPageItems().length}
-                {#each getPageItems() as item, i}
+            {#if pageItems.length}
+                {#each pageItems as item, i}
                     <AnimangaCard {item} />
                 {/each}
-            {:else if !dataLoading}
+            {:else}
                 <div class="col-span-full py-24 text-gray-500 text-center">
                     - No title found -
                 </div>
             {/if}
         </div>
-        {#if searchKeyword || mediaFilter ? searchResult.length : animanga.length}
-            <Pagination {currentPage} {getTotalPages} {navigate} />
+        {#if pageItems.length}
+            <Pagination {currentPage} {totalPages} {navigate} />
         {/if}
     </div>
 </main>
