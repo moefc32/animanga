@@ -59,7 +59,7 @@ export default {
                     authors,
                     studios,
                     genres
-                ) VALUES (?, ?);
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             `, [
                 data.mal_id,
                 data.url,
