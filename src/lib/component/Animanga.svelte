@@ -110,9 +110,9 @@
             <Plus size={16} /> Add New
         </button>
     </div>
-    <div class="overflow-x-auto w-full">
+    <div class="overflow-x-auto w-full max-h-[calc(100dvh-265px)]">
         <table class="table">
-            <thead>
+            <thead class="sticky bg-white top-0 z-10">
                 <tr>
                     <th>No.</th>
                     <th>Title</th>

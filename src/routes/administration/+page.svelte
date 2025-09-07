@@ -24,13 +24,13 @@
             <span class="text-sm leading-6">Back to<br />Home</span>
         </a>
         <div
-            class="flex flex-1 flex-col gap-1 px-6 py-3 border-l-[1px] border-gray-200"
+            class="flex flex-3 flex-col gap-1 px-6 py-3 border-l-[1px] border-gray-200"
         >
             <span class="text-sm">Total Animanga</span>
             <span class="text-3xl">{animanga?.length || 0}</span>
         </div>
         <div
-            class="flex flex-1 flex-col gap-1 px-6 py-3 border-l-[1px] border-gray-200"
+            class="flex flex-2 flex-col gap-1 px-6 py-3 border-l-[1px] border-gray-200"
         >
             <span class="text-sm">
                 Anime {animeCount > 1 ? 'Titles' : 'Title'}
@@ -38,7 +38,7 @@
             <span class="text-3xl">{animeCount}</span>
         </div>
         <div
-            class="flex flex-1 flex-col gap-1 px-6 py-3 border-l-[1px] border-gray-200"
+            class="flex flex-2 flex-col gap-1 px-6 py-3 border-l-[1px] border-gray-200"
         >
             <span class="text-sm">
                 Manga {mangaCount > 1 ? 'Titles' : 'Title'}
