@@ -3,6 +3,7 @@
     import AOS from 'aos';
     import Fuse from 'fuse.js';
 
+    import fuseOptions from '$lib/fuseOptions';
     import Banner from '$lib/component/Banner.svelte';
     import Filter from '$lib/component/Filter.svelte';
     import AnimangaCard from '$lib/component/AnimangaCard.svelte';
@@ -11,14 +12,6 @@
     export let data;
 
     const { animanga } = data;
-
-    const fuseOptions = {
-        isCaseSensitive: false,
-        findAllMatches: true,
-        keys: ['title', 'title_english', 'title_japanese', 'studios.name'],
-        threshold: 0.2,
-        ignoreLocation: true,
-    };
 
     let pageItems = [];
     let totalPages = 0;

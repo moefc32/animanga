@@ -1,6 +1,9 @@
 <script>
     import { Search, RefreshCw, Plus, Trash2, Check } from 'lucide-svelte';
     import { toast } from 'svoast';
+    import Fuse from 'fuse.js';
+
+    import fuseOptions from '$lib/fuseOptions';
 
     export let animanga;
 
@@ -9,11 +12,30 @@
         manga: 'Manga',
     };
 
+    let pageItems = [];
     let searchKeyword = '';
+    let searchResult = [];
     let editContext = {
         id: '',
         url: '',
     };
+
+    function search() {
+        if (!searchKeyword) {
+            searchResult = [];
+            return;
+        }
+
+        let searchData = animanga;
+
+        if (searchKeyword) {
+            const fuse = new Fuse(searchData, fuseOptions);
+            searchData = fuse.search(searchKeyword);
+            searchData = searchData.map(item => item.item);
+        }
+
+        searchResult = searchData;
+    }
 
     function openCreate() {
         editContext = {
@@ -94,6 +116,11 @@
             toast.error('Error when deleting the animanga!');
         }
     }
+
+    $: {
+        [searchKeyword], search();
+        pageItems = searchKeyword ? searchResult : animanga;
+    }
 </script>
 
 <div class="flex flex-col gap-6">
@@ -123,45 +150,60 @@
                 </tr>
             </thead>
             <tbody>
-                {#each animanga as item, i}
-                    <tr
-                        class="{i % 2 === 0
-                            ? 'bg-black/5 hover:bg-black/9'
-                            : 'hover:bg-black/7'} transition duration-100"
-                    >
-                        <td class="text-right w-[60px] whitespace-nowrap">
-                            {i + 1}
-                        </td>
-                        <td class="max-w-80">
-                            <div
-                                class="flex flex-col justify-center gap-2 ps-[95px] bg-size-[80px]! min-h-[120px]"
-                                style="background: url({item.image_thumb}) left top no-repeat;"
+                {#if pageItems.length}
+                    {#each pageItems as item, i}
+                        <tr
+                            class="{i % 2 === 0
+                                ? 'bg-black/5 hover:bg-black/9'
+                                : 'hover:bg-black/7'} transition duration-100"
+                        >
+                            <td class="text-right w-[60px] whitespace-nowrap">
+                                {i + 1}
+                            </td>
+                            <td class="max-w-80">
+                                <div
+                                    class="flex flex-col justify-center gap-2 ps-[95px] bg-size-[80px]! min-h-[120px]"
+                                    style="background: url({item.image_thumb}) left top no-repeat;"
+                                >
+                                    <span class="text-lg"
+                                        >{item.title_english ||
+                                            item.title}</span
+                                    >
+                                    <span class="text-gray-500 text-xs">
+                                        {item.title_japanese}
+                                    </span>
+                                </div>
+                            </td>
+                            <td>{mediaType[item.media]}</td>
+                            <td>{item.year || '-'}</td>
+                            <td class="whitespace-nowrap"
+                                >{item.status || '-'}</td
                             >
-                                <span class="text-lg">{item.title}</span>
-                                <span class="text-gray-500 text-xs">
-                                    {item.title_japanese}
-                                </span>
-                            </div>
-                        </td>
-                        <td>{mediaType[item.media]}</td>
-                        <td>{item.year || '-'}</td>
-                        <td class="whitespace-nowrap">{item.status}</td>
-                        <td class="w-[1%] whitespace-nowrap">
-                            <button class="btn btn-sm bg-blue-500 text-white">
-                                <RefreshCw size={12} />
-                            </button>
-                            <button
-                                class="btn btn-sm btn-error text-white"
-                                on:click={() => {
-                                    editContext.id = item.id;
-                                    animanga_delete.showModal();
-                                }}
-                            >
-                                <Trash2 size={12} />
-                            </button>
+                            <td class="w-[1%] whitespace-nowrap">
+                                <button
+                                    class="btn btn-sm bg-blue-500 text-white"
+                                >
+                                    <RefreshCw size={12} />
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-error text-white"
+                                    on:click={() => {
+                                        editContext.id = item.id;
+                                        animanga_delete.showModal();
+                                    }}
+                                >
+                                    <Trash2 size={12} />
+                                </button>
+                            </td>
+                        </tr>
+                    {/each}
+                {:else}
+                    <tr>
+                        <td class="py-12 text-gray-500 text-center" colspan="6">
+                            - No title found -
                         </td>
                     </tr>
-                {/each}
+                {/if}
             </tbody>
         </table>
     </div>
