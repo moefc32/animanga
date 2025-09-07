@@ -1,6 +1,7 @@
 <script>
     import '../app.css';
     import 'aos/dist/aos.css';
+    import { page } from '$app/stores';
     import { Toasts } from 'svoast';
 
     import Header from '$lib/component/Header.svelte';
@@ -39,7 +40,12 @@
     </script>
 </svelte:head>
 
-<Header />
-<slot />
-<Footer />
-<Toasts position={'bottom-center'} />
+
+{#if $page.url.pathname.startsWith('/administration')}
+    <slot />
+{:else}
+    <Header />
+    <slot />
+    <Footer />
+    <Toasts position={'bottom-center'} />
+{/if}

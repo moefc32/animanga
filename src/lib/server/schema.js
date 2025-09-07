@@ -17,6 +17,8 @@ export default function setSchema() {
             image_large TEXT,
             year INTEGER,
             status TEXT,
+            season INTEGER,
+            episodes INTEGER,
             chapters INTEGER,
             volumes INTEGER,
             authors TEXT,
