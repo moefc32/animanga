@@ -25,7 +25,7 @@
         "vite": "^6.3.5"
     },
     "dependencies": {
-        "@fontsource-variable/noto-sans": "^5.2.7",
+        "@fontsource-variable/noto-sans": "^5.2.8",
         "aos": "^2.3.4",
         "fuse.js": "^7.1.0",
         "lucide-svelte": "^0.461.0"
