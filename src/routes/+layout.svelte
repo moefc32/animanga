@@ -8,6 +8,12 @@
     import Footer from '$lib/component/Footer.svelte';
 
     const ogImage = `${import.meta.env.VITE_SITE_URL}/og.png`;
+
+    if ('serviceWorker' in navigator) {
+        addEventListener('load', function () {
+            navigator.serviceWorker.register('/service-worker.js');
+        });
+    }
 </script>
 
 <svelte:head>
@@ -39,7 +45,6 @@
         gtag('config', 'UA-131278165-1');
     </script>
 </svelte:head>
-
 
 {#if $page.url.pathname.startsWith('/administration')}
     <slot />
