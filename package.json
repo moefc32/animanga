@@ -8,21 +8,21 @@
         "build": "vite build",
         "preview": "vite preview",
         "prepare": "svelte-kit sync || echo ''",
-        "deploy": "pnpm build && pnpx gh-pages -d build --dotfiles"
+        "deploy": "pnpm build && wrangler deploy"
     },
     "devDependencies": {
-        "@sveltejs/adapter-static": "^3.0.9",
+        "@sveltejs/adapter-cloudflare": "^7.2.3",
         "@sveltejs/kit": "^2.37.1",
         "@sveltejs/vite-plugin-svelte": "^5.1.1",
         "@tailwindcss/vite": "^4.1.13",
         "better-sqlite3": "^12.2.0",
         "daisyui": "5.0.0",
         "dotenv": "^16.6.1",
-        "gh-pages": "^6.3.0",
         "svelte": "^5.38.8",
         "svoast": "^3.0.3",
         "tailwindcss": "^4.1.13",
-        "vite": "^6.3.6"
+        "vite": "^6.3.6",
+        "wrangler": "^4.35.0"
     },
     "dependencies": {
         "@fontsource-variable/noto-sans": "^5.2.8",
@@ -34,7 +34,9 @@
         "onlyBuiltDependencies": [
             "@tailwindcss/oxide",
             "better-sqlite3",
-            "esbuild"
+            "esbuild",
+            "sharp",
+            "workerd"
         ]
     }
 }
