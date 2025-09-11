@@ -10,6 +10,7 @@
     <div class="join shadow">
         <select
             class="select pe-9 border-[1px] border-gray-200 rounded-s-md"
+            title="Navigate to page"
             bind:value={currentPage}
             on:click={() => navigate(currentPage)}
         >
@@ -21,6 +22,7 @@
         </select>
         <button
             class="join-item px-3 text-sm font-normal border-[1px] border-gray-200"
+            aria-label={`Total of ${totalPages} ${totalPages > 1 ? 'pages' : 'page'}`}
         >
             <span class="text-nowrap">
                 of {totalPages}
@@ -29,6 +31,7 @@
         </button>
         <button
             class="join-item btn px-3"
+            title="Navigate to previous page"
             disabled={currentPage === 1}
             on:click={() => navigate(currentPage - 1)}
         >
@@ -36,6 +39,7 @@
         </button>
         <button
             class="join-item btn px-3"
+            title="Navigate to next page"
             disabled={currentPage === totalPages}
             on:click={() => navigate(currentPage + 1)}
         >

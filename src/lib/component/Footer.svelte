@@ -10,7 +10,7 @@
         <a
             href="https://mf-chan.com"
             target="_blank"
-            class="text-blue-500 hover:text-green-500"
+            class="text-blue-500 hover:text-green-500 underline"
         >
             Mfc
         </a>
@@ -21,7 +21,7 @@
         <a
             href="https://opensource.org/licenses/MIT"
             target="_blank"
-            class="text-blue-500 hover:text-green-500"
+            class="text-blue-500 hover:text-green-500 underline"
         >
             MIT
         </a>

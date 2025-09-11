@@ -9,7 +9,10 @@
 
     const ogImage = `${import.meta.env.VITE_SITE_URL}/og.png`;
 
-    if ('serviceWorker' in navigator) {
+    if (
+        'serviceWorker' in navigator &&
+        !['localhost', '127.0.0.1'].includes(location.hostname)
+    ) {
         addEventListener('load', function () {
             navigator.serviceWorker.register('/service-worker.js');
         });
@@ -29,6 +32,10 @@
         content="Anime and manga collection by Faizal Chan."
     />
     <meta property="og:image" content={ogImage} />
+    <meta
+        name="description"
+        content="Showcase of Faizal Chan's curated anime and manga collection, highlighting selected series."
+    />
 
     <script
         src="https://www.googletagmanager.com/gtag/js?id=UA-131278165-1"
