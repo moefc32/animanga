@@ -8,7 +8,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "prepare": "svelte-kit sync || echo ''",
-        "deploy": "pnpm build && wrangler deploy"
+        "deploy": "test -f .env && (pnpm build && wrangler deploy) || echo 'Error occured, deploy aborted!'"
     },
     "devDependencies": {
         "@sveltejs/adapter-cloudflare": "^7.2.3",
