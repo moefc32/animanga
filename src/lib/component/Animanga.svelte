@@ -61,10 +61,10 @@
             animanga = data;
 
             animanga_detail.close();
-            toast.success('New animanga created successfully.');
+            toast.success('New animanga added successfully.');
         } catch (e) {
             console.error(e);
-            toast.error('Error when creating new animanga!');
+            toast.error('Error when adding new animanga!');
         }
     }
 
@@ -77,7 +77,6 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(editContext),
                 },
             );
             if (!response.ok) throw new Error();
@@ -182,11 +181,17 @@
                             <td class="w-[1%] whitespace-nowrap">
                                 <button
                                     class="btn btn-sm bg-blue-500 text-white"
+                                    title="Refresh metadata"
+                                    on:click={() => {
+                                        editContext.id = item.id;
+                                        submitUpdate();
+                                    }}
                                 >
                                     <RefreshCw size={12} />
                                 </button>
                                 <button
                                     class="btn btn-sm btn-error text-white"
+                                    title="Delete this entry"
                                     on:click={() => {
                                         editContext.id = item.id;
                                         animanga_delete.showModal();

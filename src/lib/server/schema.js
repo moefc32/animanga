@@ -23,7 +23,8 @@ export default function setSchema() {
             volumes INTEGER,
             authors TEXT,
             studios TEXT,
-            genres TEXT
+            genres TEXT,
+            UNIQUE(mal_id, media)
         );`,
     ];
 

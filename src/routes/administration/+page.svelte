@@ -5,7 +5,7 @@
 
     export let data;
 
-    const { animanga } = data;
+    let { animanga } = data;
 
     const animeCount = animanga
         ? animanga.filter(item => item.media === 'anime').length
@@ -49,6 +49,6 @@
     <div
         class="flex flex-col gap-6 px-6 py-3 w-full border-[1px] border-gray-200 rounded-lg shadow-md"
     >
-        <Animanga {animanga} />
+        <Animanga bind:animanga />
     </div>
 </main>

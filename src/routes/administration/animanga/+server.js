@@ -14,7 +14,9 @@ async function fetchAnimangaData(url) {
 
         if (!response.ok) throw new Error();
 
-        const info = await response.json();
+        const payload = await response.json();
+        const info = payload.data;
+
         result.mal_id = info.mal_id;
         result.url = `https://myanimelist.net/${media}/${info.mal_id}`;
 
@@ -34,35 +36,44 @@ async function fetchAnimangaData(url) {
         if (media === 'manga') result.chapters = info.chapters || null;
         if (media === 'manga') result.volumes = info.volumes || null;
 
-        result.authors = [];
-        result.studios = [];
-        result.genres = [];
 
         if (info.authors) {
+            const authors = [];
+
             info.authors.forEach((item) => {
-                result.authors.push({
+                authors.push({
                     name: item.name,
                     url: item.url,
                 });
             });
+
+            result.authors = JSON.stringify(authors);
         }
 
         if (info.studios) {
+            const studios = [];
+
             info.studios.forEach((item) => {
-                result.studios.push({
+                studios.push({
                     name: item.name,
                     url: item.url,
                 });
             });
+
+            result.studios = JSON.stringify(studios);
         }
 
         if (info.genres) {
+            const genres = [];
+
             info.genres.forEach((item) => {
-                result.genres.push({
+                genres.push({
                     name: item.name,
                     url: item.url,
                 });
             });
+
+            result.genres = JSON.stringify(genres);
         }
 
         return result;
@@ -86,9 +97,7 @@ export async function POST({ request }) {
 
     try {
         const animanga = await fetchAnimangaData(animangaUrl);
-
         await model.createData(animanga);
-
         const response = await model.getData();
 
         return json({
@@ -110,23 +119,30 @@ export async function POST({ request }) {
 
 export async function PATCH({ request, url }) {
     const id = url.searchParams.get('id');
-    const formData = await request.json();
-    const animangaUrl = trimText(formData.url);
 
-    if (!id || !animangaUrl) {
+    if (!id) {
         return json({
             application: VITE_APP_NAME,
-            message: 'All data must be filled, please try again!',
+            message: 'Id must be given, please try again!',
         }, {
             status: 400,
         });
     }
 
     try {
+        const animangaUrl = await model.getData(id);
+
+        if (!animangaUrl) {
+            return json({
+                application: VITE_APP_NAME,
+                message: 'Invalid animanga id, please try again!',
+            }, {
+                status: 400,
+            });
+        }
+
         const animanga = await fetchAnimangaData(animangaUrl);
-
         await model.editData(animanga, id);
-
         const response = await model.getData();
 
         return json({

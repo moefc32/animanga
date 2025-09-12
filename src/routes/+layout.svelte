@@ -59,5 +59,5 @@
     <Header />
     <slot />
     <Footer />
-    <Toasts position={'bottom-center'} />
 {/if}
+<Toasts position={'bottom-center'} />
