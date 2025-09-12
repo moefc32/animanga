@@ -46,6 +46,16 @@
         animanga_detail.showModal();
     }
 
+    function trimText(text, maxLength = 30) {
+        if (!text) return '';
+        if (text.length <= maxLength) return text;
+
+        const nextSpace = text.indexOf(' ', maxLength);
+        const end = nextSpace > 0 ? nextSpace : text.length;
+
+        return text.slice(0, end) + ' ...';
+    }
+
     async function submitCreate() {
         try {
             const response = await fetch('/administration/animanga', {
@@ -68,6 +78,37 @@
         }
     }
 
+    async function submitUpdateAll() {
+        try {
+            for (let i = 0; i < animanga.length; i++) {
+                const response = await fetch(
+                    `/administration/animanga?id=${animanga[i].id}`,
+                    {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    },
+                );
+                if (!response.ok) throw new Error();
+
+                const { data } = await response.json();
+                const index = animanga.findIndex(i => i.id === data.id);
+                if (index !== -1) animanga[index] = data;
+
+                const title = trimText(data.title_english || data.title);
+                toast.success(
+                    `${mediaType[data.media]} "${title}" updated successfully.`,
+                );
+
+                await new Promise(r => setTimeout(r, 1250));
+            }
+        } catch (e) {
+            console.error(e);
+            toast.error('Error when updating the animanga!');
+        }
+    }
+
     async function submitUpdate() {
         try {
             const response = await fetch(
@@ -82,10 +123,13 @@
             if (!response.ok) throw new Error();
 
             const { data } = await response.json();
-            animanga = data;
+            const index = animanga.findIndex(i => i.id === data.id);
+            if (index !== -1) animanga[index] = data;
 
-            animanga_detail.close();
-            toast.success('Animanga updated successfully.');
+            const title = trimText(data.title_english || data.title);
+            toast.success(
+                `${mediaType[data.media]} "${title}" updated successfully.`,
+            );
         } catch (e) {
             console.error(e);
             toast.error('Error when updating the animanga!');
@@ -124,7 +168,7 @@
 
 <div class="flex flex-col gap-6">
     <div class="flex justify-end items-center gap-3 w-full">
-        <label class="input w-full">
+        <label class="input flex-1">
             <Search size={16} />
             <input
                 type="text"
@@ -132,9 +176,19 @@
                 bind:value={searchKeyword}
             />
         </label>
-        <button class="btn btn-success ms-auto" on:click={() => openCreate()}>
-            <Plus size={16} /> Add New
-        </button>
+        <div class="flex items-center gap-1 ms-auto">
+            <button class="btn btn-success" on:click={() => openCreate()}>
+                <Plus size={16} /> Add New
+            </button>
+            <button
+                class="btn bg-blue-500 text-white"
+                on:click={() => {
+                    submitUpdateAll();
+                }}
+            >
+                <RefreshCw size={12} /> Refresh All
+            </button>
+        </div>
     </div>
     <div class="overflow-x-auto w-full max-h-[calc(100dvh-265px)]">
         <table class="table">

@@ -4,39 +4,33 @@ import { TABLE_ANIMANGA } from './tables';
 export default {
     getData: async (id) => {
         try {
-            const result = id ?
-                sqlite(`
-                    SELECT url
-                    FROM ${TABLE_ANIMANGA}
-                    WHERE id = ?;
-                `, [id]) :
-                sqlite(`
-                    SELECT
-                        id,
-                        mal_id,
-                        url,
-                        title,
-                        title_english,
-                        title_japanese,
-                        score,
-                        media,
-                        synopsis,
-                        image_thumb,
-                        image_large,
-                        year,
-                        status,
-                        season,
-                        episodes,
-                        chapters,
-                        volumes,
-                        authors,
-                        studios,
-                        genres
-                    FROM ${TABLE_ANIMANGA}
-                    ORDER BY title COLLATE NOCASE ASC;
-                `);
+            const result = sqlite(`
+                SELECT
+                    id,
+                    mal_id,
+                    url,
+                    title,
+                    title_english,
+                    title_japanese,
+                    score,
+                    media,
+                    synopsis,
+                    image_thumb,
+                    image_large,
+                    year,
+                    status,
+                    season,
+                    episodes,
+                    chapters,
+                    volumes,
+                    authors,
+                    studios,
+                    genres
+                FROM ${TABLE_ANIMANGA}
+                ${id ? 'WHERE id = ?' : 'ORDER BY title COLLATE NOCASE ASC'};
+            `, id ? [id] : undefined);
 
-            return id ? result[0].url : result;
+            return result;
         } catch (e) {
             console.error(e);
             throw new Error('Error when getting data!');

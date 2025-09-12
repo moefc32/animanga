@@ -3,6 +3,7 @@ import { json } from '@sveltejs/kit';
 import getUrlSegments from '$lib/getUrlSegments';
 import trimText from '$lib/trimText';
 import model from '$lib/server/model/animanga';
+import parseAnimangaRow from '$lib/parseAnimangaRow.js';
 
 async function fetchAnimangaData(url) {
     const result = {};
@@ -96,14 +97,15 @@ export async function POST({ request }) {
     }
 
     try {
-        const animanga = await fetchAnimangaData(animangaUrl);
-        await model.createData(animanga);
+        const data = await fetchAnimangaData(animangaUrl);
+        await model.createData(data);
         const response = await model.getData();
+        const animanga = response.map(parseAnimangaRow);
 
         return json({
             application: VITE_APP_NAME,
             message: 'Create new animanga success.',
-            data: response,
+            data: animanga,
         });
     } catch (e) {
         console.error(e);
@@ -117,7 +119,7 @@ export async function POST({ request }) {
     }
 }
 
-export async function PATCH({ request, url }) {
+export async function PATCH({ url }) {
     const id = url.searchParams.get('id');
 
     if (!id) {
@@ -130,9 +132,9 @@ export async function PATCH({ request, url }) {
     }
 
     try {
-        const animangaUrl = await model.getData(id);
+        const entry = await model.getData(id);
 
-        if (!animangaUrl) {
+        if (!entry.length) {
             return json({
                 application: VITE_APP_NAME,
                 message: 'Invalid animanga id, please try again!',
@@ -141,14 +143,15 @@ export async function PATCH({ request, url }) {
             });
         }
 
-        const animanga = await fetchAnimangaData(animangaUrl);
-        await model.editData(animanga, id);
-        const response = await model.getData();
+        const data = await fetchAnimangaData(entry[0].url);
+        await model.editData(data, id);
+        const response = await model.getData(id);
+        const animanga = response.map(parseAnimangaRow);
 
         return json({
             application: VITE_APP_NAME,
             message: 'Update animanga success.',
-            data: response,
+            data: animanga[0],
         });
     } catch (e) {
         console.error(e);
@@ -178,11 +181,12 @@ export async function DELETE({ url }) {
         await model.deleteData(id);
 
         const response = await model.getData();
+        const animanga = response.map(parseAnimangaRow);
 
         return json({
             application: VITE_APP_NAME,
             message: 'Delete animanga success.',
-            data: response,
+            data: animanga,
         });
     } catch (e) {
         console.error(e);
