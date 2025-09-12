@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
     import AOS from 'aos';
     import Fuse from 'fuse.js';
 
@@ -15,7 +16,7 @@
 
     let pageItems = [];
     let totalPages = 0;
-    let currentPage = 1;
+    let currentPage = null;
     let pageSize = parseInt(import.meta.env.VITE_PAGINATION_ITEMS || '36', 10);
     let searchKeyword = '';
     let mediaFilter = '';
@@ -111,7 +112,21 @@
 
     function navigate(page) {
         if (page !== currentPage && page >= 1 && page <= totalPages) {
+            const urlParams = new URLSearchParams(window.location.search);
+
             currentPage = page;
+            if (currentPage > 1) {
+                urlParams.set('page', currentPage);
+            } else {
+                urlParams.delete('page');
+            }
+
+            const newUrl =
+                urlParams.toString().length > 0
+                    ? `?${urlParams.toString()}`
+                    : window.location.pathname;
+
+            window.history.replaceState({}, '', newUrl);
 
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -120,6 +135,21 @@
     }
 
     onMount(async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageFromUrl = parseInt(urlParams.get('page'));
+
+        if (pageFromUrl && pageFromUrl > 1 && pageFromUrl <= totalPages) {
+            currentPage = pageFromUrl;
+        } else {
+            currentPage = 1;
+
+            urlParams.delete('page');
+            goto(`?${urlParams.toString()}`, {
+                replaceState: true,
+                noscroll: true,
+            });
+        }
+
         AOS.init();
     });
 
@@ -156,7 +186,7 @@
                 {#each pageItems as item, i}
                     <AnimangaCard {item} />
                 {/each}
-            {:else}
+            {:else if currentPage !== null}
                 <div class="col-span-full py-24 text-gray-500 text-center">
                     - No title found -
                 </div>
