@@ -1,10 +1,11 @@
 <script>
     import { onMount } from 'svelte';
-    import { goto } from '$app/navigation';
+    import { goto, replaceState } from '$app/navigation';
     import AOS from 'aos';
     import Fuse from 'fuse.js';
 
     import fuseOptions from '$lib/fuseOptions';
+    import resetCurrentPage from '$lib/stores/resetCurrentPage';
     import Banner from '$lib/component/Banner.svelte';
     import Filter from '$lib/component/Filter.svelte';
     import AnimangaCard from '$lib/component/AnimangaCard.svelte';
@@ -21,63 +22,6 @@
     let searchKeyword = '';
     let mediaFilter = '';
     let searchResult = [];
-    // let modal = {
-    //     authors: [],
-    //     studios: [],
-    //     genres: [],
-    //     loadedImage: '',
-    // };
-
-    // async function loadModalImage() {
-    //     try {
-    //         let img = new Image();
-
-    //         await new Promise((resolve, reject) => {
-    //             img.addEventListener('load', () => {
-    //                 modal.loadedImage = img.src;
-    //                 resolve();
-    //             });
-
-    //             img.addEventListener('error', () => {
-    //                 reject(new Error('Failed to load image!'));
-    //             });
-
-    //             img.src = modal.image_large;
-    //         });
-    //     } catch (e) {
-    //         throw e;
-    //     }
-    // }
-
-    // function openModal(item) {
-    //     modal.loadedImage = '';
-    //     const tempObject = { ...modal, ...item };
-
-    //     tempObject.authors = tempObject.authors.map((item, i) => {
-    //         return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
-    //     });
-
-    //     tempObject.studios = tempObject.studios.map((item, i) => {
-    //         return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
-    //     });
-
-    //     tempObject.genres = tempObject.genres.map((item, i) => {
-    //         return `${i !== 0 ? ' ' : ''} <a href="${item.url}" target="_blank">${item.name}</a>`;
-    //     });
-
-    //     if (tempObject.season) {
-    //         const words = tempObject.season.toLowerCase().split(' ');
-    //         const titleCasedWords = words.map(word => {
-    //             return word.charAt(0).toUpperCase() + word.slice(1);
-    //         });
-
-    //         tempObject.season = titleCasedWords.join(' ');
-    //     }
-
-    //     modal = tempObject;
-    //     loadModalImage();
-    //     animangaModal.show();
-    // }
 
     function search() {
         if (!searchKeyword && !mediaFilter) {
@@ -125,8 +69,7 @@
                 urlParams.toString().length > 0
                     ? `?${urlParams.toString()}`
                     : window.location.pathname;
-
-            window.history.replaceState({}, '', newUrl);
+            replaceState(newUrl);
 
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -155,6 +98,11 @@
 
     $: {
         [searchKeyword, mediaFilter], search();
+
+        if ($resetCurrentPage === true) {
+            navigate(1);
+            resetCurrentPage.set(null);
+        }
 
         pageItems =
             searchKeyword || mediaFilter

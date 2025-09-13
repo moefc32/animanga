@@ -1,8 +1,11 @@
 <script>
     import { goto } from '$app/navigation';
 
+    import resetCurrentPage from '$lib/stores/resetCurrentPage';
+
     function handleClick() {
         if (window.location.pathname === '/') {
+            resetCurrentPage.set(true);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
             goto('/');
