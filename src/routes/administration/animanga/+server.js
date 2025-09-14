@@ -132,7 +132,7 @@ export async function PATCH({ url }) {
     }
 
     try {
-        const entry = await model.getData(id);
+        const entry = await model.getData({ id });
 
         if (!entry.length) {
             return json({
@@ -145,7 +145,7 @@ export async function PATCH({ url }) {
 
         const data = await fetchAnimangaData(entry[0].url);
         await model.editData(data, id);
-        const response = await model.getData(id);
+        const response = await model.getData({ id });
         const animanga = response.map(parseAnimangaRow);
 
         return json({

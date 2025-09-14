@@ -2,33 +2,43 @@ import sqlite from '../sqlite';
 import { TABLE_ANIMANGA } from './tables';
 
 export default {
-    getData: async (id) => {
+    getData: async ({ id, media, mal_id } = {}) => {
         try {
-            const result = sqlite(`
-                SELECT
-                    id,
-                    mal_id,
-                    url,
-                    title,
-                    title_english,
-                    title_japanese,
-                    score,
-                    media,
-                    synopsis,
-                    image_thumb,
-                    image_large,
-                    year,
-                    status,
-                    season,
-                    episodes,
-                    chapters,
-                    volumes,
-                    authors,
-                    studios,
-                    genres
-                FROM ${TABLE_ANIMANGA}
-                ${id ? 'WHERE id = ?' : 'ORDER BY title COLLATE NOCASE ASC'};
-            `, id ? [id] : undefined);
+            const hasId = Boolean(id);
+            const query = `
+            SELECT
+                id,
+                mal_id,
+                url,
+                title,
+                title_english,
+                title_japanese,
+                score,
+                media,
+                synopsis,
+                image_thumb,
+                image_large,
+                year,
+                status,
+                season,
+                episodes,
+                chapters,
+                volumes,
+                authors,
+                studios,
+                genres
+            FROM ${TABLE_ANIMANGA}
+            ${hasId ? 'WHERE id = ?' : 'WHERE 1=1'}
+              AND (? IS NULL OR media = ?)
+              AND (? IS NULL OR mal_id = ?)
+            ${hasId ? '' : 'ORDER BY title COLLATE NOCASE ASC'};
+        `;
+
+            const params = hasId
+                ? [id, media || null, media || null, mal_id || null, mal_id || null]
+                : [media || null, media || null, mal_id || null, mal_id || null];
+
+            const result = sqlite(query, params);
 
             return result;
         } catch (e) {
