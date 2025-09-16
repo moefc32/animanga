@@ -40,11 +40,12 @@
 <main
     class="flex flex-1 flex-col md:flex-row md:items-start gap-9 md:gap-12 mx-12 mt-[125px] mb-6"
 >
-    <img
-        src={content.image_large}
-        class="card mx-auto max-w-[25vw] sm:max-w-[30vw] lg:max-w-max lg:h-[68vh] aspect-2/3 border-[1px] border-gray-300 shadow-lg"
-        alt={content.title}
-    />
+    <div class="flex flex-0">
+        <div
+            class="card mx-auto md:mx-0 bg-cover! min-w-[140px] w-[30vw] h-auto md:w-[33vw] lg:w-auto lg:h-[68vh] aspect-2/3 rounded-lg border-[1px] border-gray-300 overflow-hidden shadow-lg relative"
+            style="background: url({content.image_large}) center center no-repeat;"
+        ></div>
+    </div>
     <div class="flex flex-1 flex-col gap-3">
         <div class="flex flex-col gap-1 mb-3 w-full">
             <h1 class="text-3xl">{content.title_english || content.title}</h1>
