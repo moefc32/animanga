@@ -12,20 +12,20 @@
     },
     "devDependencies": {
         "@sveltejs/adapter-cloudflare": "^7.2.3",
-        "@sveltejs/kit": "^2.39.1",
+        "@sveltejs/kit": "^2.42.1",
         "@sveltejs/vite-plugin-svelte": "^5.1.1",
         "@tailwindcss/vite": "^4.1.13",
         "better-sqlite3": "^12.2.0",
         "daisyui": "5.0.0",
         "dotenv": "^16.6.1",
-        "svelte": "^5.38.10",
+        "svelte": "^5.39.2",
         "svoast": "^3.0.3",
         "tailwindcss": "^4.1.13",
         "vite": "^6.3.6",
-        "wrangler": "^4.37.0"
+        "wrangler": "^4.37.1"
     },
     "dependencies": {
-        "@fontsource-variable/noto-sans": "^5.2.9",
+        "@fontsource-variable/noto-sans": "^5.2.10",
         "aos": "^2.3.4",
         "fuse.js": "^7.1.0",
         "lucide-svelte": "^0.461.0"
