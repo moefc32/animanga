@@ -194,12 +194,12 @@
         <table class="table">
             <thead class="sticky bg-white top-0 z-10">
                 <tr>
-                    <th>No.</th>
+                    <th class="w-[1%] whitespace-nowrap">No.</th>
                     <th>Title</th>
                     <th>Media</th>
                     <th>Year</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th class="w-[1%] whitespace-nowrap">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -218,10 +218,9 @@
                                     class="flex flex-col justify-center gap-2 ps-[95px] bg-size-[80px]! min-h-[120px]"
                                     style="background: url({item.image_thumb}) left top no-repeat;"
                                 >
-                                    <span class="text-lg"
-                                        >{item.title_english ||
-                                            item.title}</span
-                                    >
+                                    <span class="text-lg">
+                                        {item.title_english || item.title}
+                                    </span>
                                     <span class="text-gray-500 text-xs">
                                         {item.title_japanese}
                                     </span>
@@ -229,9 +228,9 @@
                             </td>
                             <td>{mediaType[item.media]}</td>
                             <td>{item.year || '-'}</td>
-                            <td class="whitespace-nowrap"
-                                >{item.status || '-'}</td
-                            >
+                            <td class="whitespace-nowrap">
+                                {item.status || '-'}
+                            </td>
                             <td class="w-[1%] whitespace-nowrap">
                                 <button
                                     class="btn btn-sm bg-blue-500 text-white"
